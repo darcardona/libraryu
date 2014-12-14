@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.training.libraryu</groupId>
+	<artifactId>libraryu-builder</artifactId>
+	<version>0.1</version>
+	<packaging>pom</packaging>
+	<name>builder</name>
+
+	<modules>
+		<module>../model</module>
+		<module>../core</module>
+		<module>../service</module>
+	</modules>
+
+	<properties>
+		<!-- Explicitly declaring the source encoding eliminates the following 
+			message: -->
+		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+			resources, i.e. build is platform dependent! -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<encoding>UTF-8</encoding>
+		
+		<version.junit>4.12</version.junit>
+		<version.spring>4.1.2.RELEASE</version.spring>
+		<version.java>1.8</version.java>
+		<version.wildfly-maven-plugin>1.0.2.Final</version.wildfly-maven-plugin>
+		<version.jboss.maven.plugin>7.4.Final</version.jboss.maven.plugin>
+		<version.spring.hateoas>0.16.0.RELEASE</version.spring.hateoas>
+		<version.jackson>1.9.13</version.jackson>
+	</properties>
+
+	<dependencies>
+		<!-- junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version.junit}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>${version.java}</source>
+					<target>${version.java}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
