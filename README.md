@@ -1,4 +1,4 @@
 libraryu
 ========
 
-basic exmaple project
+basic example project
