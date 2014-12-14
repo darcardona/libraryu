@@ -1,4 +1,4 @@
-package com.training.libraryu.model.catalog.item;
+package com.dar.training.libraryu.model.catalog.item;
 
 import org.junit.Test;
 

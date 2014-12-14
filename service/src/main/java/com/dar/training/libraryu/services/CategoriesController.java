@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dar.training.libraryu.handlers.CategoryHandler;
 import com.dar.training.libraryu.model.catalog.Category;
+import com.dar.training.libraryu.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("/catalog/categories")
@@ -24,25 +24,25 @@ public class CategoriesController {
 	Logger logger = LoggerFactory.getLogger(CategoriesController.class);
 
 	@Autowired
-	CategoryHandler categoryHandler;
+	CategoryRepository categoryRepository;
 
 	/**
-	 * create category by json object
+	 * add category by json object
 	 *
 	 * @param category
 	 * @return created category
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Category createCategory(@RequestBody Category category) {
+	public Category addCategory(@RequestBody Category category) {
 		logger.info("POST< " + category.toString());
-		categoryHandler.insert(category);
-		logger.info("POST> " + category.getId());
+		categoryRepository.add(category);
+		logger.info("POST> " + category.toString());
 		return category;
 	}
 
 	/**
-	 * create category by @PathVariable
+	 * add category by @PathVariable name and state
 	 * 
 	 * @param name
 	 * @param state
@@ -50,17 +50,16 @@ public class CategoriesController {
 	 */
 	@RequestMapping(value = "/{name}/{state}", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Category createCategoryVariable(@PathVariable String name,
+	public Category addCategoryByPathVariable(@PathVariable String name,
 			@PathVariable String state) {
 		logger.info("POST< " + name + "/" + state);
-		Category category = categoryHandler.insert(new Category(name, state));
-		// Category category = new Category(name, state);
+		Category category = categoryRepository.add(new Category(name, state));
 		logger.info("POST> " + category.toString());
 		return category;
 	}
 
 	/**
-	 * create category by @RequestParam
+	 * add category by @RequestParam name and state
 	 *
 	 * @param name
 	 * @param state
@@ -68,30 +67,84 @@ public class CategoriesController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Category createCategoryParam(@RequestParam String name,
+	public Category addCategoryByRequestParam(@RequestParam String name,
 			@RequestParam String state) {
 		logger.info("POST< " + name + "/" + state);
-		Category category = categoryHandler.insert(new Category(name, state));
+		Category category = categoryRepository.add(new Category(name, state));
 		logger.info("POST> " + category.toString());
 		return category;
 	}
 
+	/**
+	 * find category by id
+	 * 
+	 * @param id
+	 * @return category found
+	 */
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Category getCategory(@PathVariable Long id) {
+	public Category findCategoryById(@PathVariable Long id) {
 		logger.info("GET< " + id);
-		Category category = categoryHandler.findById(id);
+		Category category = categoryRepository.find(id);
 		logger.info("GET> " + category.toString());
 		return category;
 	}
 
+	/**
+	 * find all categories in the repo
+	 * 
+	 * @return all categories
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<Category> getAllCategories() {
+	public List<Category> findAllCategories() {
 		logger.info("GET<");
-		List<Category> categories = categoryHandler.findAll();
+		List<Category> categories = categoryRepository.find();
 		logger.info("GET> size " + categories.size());
 		return categories;
+	}
+
+	/**
+	 * find category by example
+	 * 
+	 * @param category
+	 *            working as filter
+	 * @return categories found
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public List<Category> findCategory(@RequestBody Category category) {
+		logger.info("GET<" + category.toString());
+		List<Category> categories = categoryRepository.find(category);
+		logger.info("GET> size " + categories.toString());
+		return categories;
+	}
+
+	/**
+	 * delete category by id
+	 * 
+	 * @param id
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteCategory(Long id) {
+		logger.info("DELETE<" + id);
+		categoryRepository.delete(id);
+		logger.info("DELETE> ok");
+	}
+
+	/**
+	 * updates category
+	 * 
+	 * @param category
+	 *            with updated info
+	 */
+	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void updateCategory(@RequestBody Category category) {
+		logger.info("PUT< " + category.toString());
+		Category previous = categoryRepository.update(category);
+		logger.info("PUT> previous " + previous.toString());
 	}
 
 }

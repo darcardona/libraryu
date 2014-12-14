@@ -1,4 +1,4 @@
-package com.training.libraryu.model.account;
+package com.dar.training.libraryu.model.account;
 
 import org.junit.Test;
 

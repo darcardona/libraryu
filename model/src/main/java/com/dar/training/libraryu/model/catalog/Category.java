@@ -30,6 +30,10 @@ public class Category implements Serializable {
 		this.state = state;
 	}
 
+	public Category(String state) {
+		this.state = state;
+	}
+
 	public Long getId() {
 		return id;
 	}

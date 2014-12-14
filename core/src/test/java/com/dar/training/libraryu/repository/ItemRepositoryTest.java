@@ -1,12 +1,12 @@
-package com.training.libraryu.handlers;
+package com.dar.training.libraryu.repository;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.dar.training.libraryu.handlers.ItemHandler;
 import com.dar.training.libraryu.model.catalog.item.Book;
 import com.dar.training.libraryu.model.catalog.item.Item;
 import com.dar.training.libraryu.model.catalog.item.Magazine;
+import com.dar.training.libraryu.repository.ItemRepository;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -16,15 +16,15 @@ import static org.junit.Assert.*;
 /**
  * Created by dar on 11/26/14.
  */
-public class ItemHandlerTest {
+public class ItemRepositoryTest {
 
     AtomicLong id;
-    ItemHandler itemHandler;
+    ItemRepository itemHandler;
 
     @Before
     public void setUp() {
         id = new AtomicLong();
-        itemHandler = new ItemHandler();
+        itemHandler = new ItemRepository();
     }
 
     @Test
