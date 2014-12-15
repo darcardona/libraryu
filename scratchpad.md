@@ -1,0 +1,2 @@
+- page 467 create a service class that provides a validation service
+- annotate the argument in a method with the @Valid annotation, and Spring will invoke JSR-349 validation automatically during the data-binding process
