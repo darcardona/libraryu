@@ -6,7 +6,6 @@ import org.junit.Test;
 import com.dar.training.libraryu.model.catalog.Category;
 import com.dar.training.libraryu.repository.CategoryRepository;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 

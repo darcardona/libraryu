@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import com.dar.training.libraryu.repository.CategoryRepository;
 @RequestMapping("/catalog/categories")
 public class CategoriesController {
 
-	Logger logger = LoggerFactory.getLogger(CategoriesController.class);
+	final Logger logger = LoggerFactory.getLogger(CategoriesControllerTest.class);
 
 	@Autowired
 	CategoryRepository categoryRepository;
@@ -81,7 +82,7 @@ public class CategoriesController {
 	 * @param id
 	 * @return category found
 	 */
-	@RequestMapping(value = "{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Category findCategoryById(@PathVariable Long id) {
 		logger.info("GET< " + id);
@@ -111,7 +112,7 @@ public class CategoriesController {
 	 *            working as filter
 	 * @return categories found
 	 */
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/lookup", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<Category> findCategory(@RequestBody Category category) {
 		logger.info("GET<" + category.toString());
@@ -121,30 +122,35 @@ public class CategoriesController {
 	}
 
 	/**
+	 * updates category
+	 * 
+	 * @param category
+	 *            with updated info
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void updateCategory(@PathVariable Long id, @RequestBody Category category) {
+		logger.info("PUT< " + category.toString());
+		Category previous = categoryRepository.update(category);
+		logger.info("PUT> previous " + previous.toString());
+	}
+
+	/**
 	 * delete category by id
 	 * 
 	 * @param id
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteCategory(Long id) {
+	public void deleteCategory(@PathVariable Long id) {
 		logger.info("DELETE<" + id);
 		categoryRepository.delete(id);
 		logger.info("DELETE> ok");
 	}
 
-	/**
-	 * updates category
-	 * 
-	 * @param category
-	 *            with updated info
-	 */
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void updateCategory(@RequestBody Category category) {
-		logger.info("PUT< " + category.toString());
-		Category previous = categoryRepository.update(category);
-		logger.info("PUT> previous " + previous.toString());
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String handleBadRequests(Exception e) {
+		return e.getMessage();
 	}
-
 }

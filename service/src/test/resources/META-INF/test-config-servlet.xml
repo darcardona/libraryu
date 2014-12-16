@@ -23,9 +23,9 @@
 		system and field formatting, as well as support of JSR-349 Bean Validation -->
 	<mvc:annotation-driven />
 
-	<!-- configure the support of the JSR 303 Bean Validation API in Spring’s 
-		ApplicationContext -->
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	<!-- Rest Template -->
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		
+	</bean>
 
 </beans>

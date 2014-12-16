@@ -7,9 +7,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.dar.training.libraryu.model.catalog.Category;
+
 import static com.dar.training.libraryu.repository.util.CategoryPredicate.*;
 
 /**
@@ -17,6 +23,8 @@ import static com.dar.training.libraryu.repository.util.CategoryPredicate.*;
  */
 @Component
 public class CategoryRepository implements LibraryURepository<Category> {
+
+	Logger logger = LoggerFactory.getLogger(CategoryRepository.class);
 
 	private AtomicLong currentId = new AtomicLong();
 	private ConcurrentMap<Long, Category> categories = new ConcurrentHashMap<>();
@@ -56,5 +64,15 @@ public class CategoryRepository implements LibraryURepository<Category> {
 
 	public void delete(Long id) {
 		categories.remove(id);
+	}
+
+	@PostConstruct
+	public void init() {
+		logger.info("Initializing bean with JSR250 @PostConstruct");
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		logger.info("Destroying bean with JSR250 @PreDestroy");
 	}
 }

@@ -2,13 +2,12 @@ package com.dar.training.libraryu.model.catalog;
 
 import java.io.Serializable;
 
-//import javax.xml.bind.annotation.XmlElement;
-//import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by dar on 11/22/14.
  */
-// @XmlRootElement(name = "category")
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +17,13 @@ public class Category implements Serializable {
 	// }
 
 	private Long id;
+
+	@NotNull
+	@Size(min = 2, max = 60)
 	private String name;
+
+	@NotNull
+	@Size(min = 2, max = 10)
 	private String state;
 
 	public Category() {
@@ -38,7 +43,6 @@ public class Category implements Serializable {
 		return id;
 	}
 
-	// @XmlElement
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -47,7 +51,6 @@ public class Category implements Serializable {
 		return name;
 	}
 
-	// @XmlElement
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -56,7 +59,6 @@ public class Category implements Serializable {
 		return state;
 	}
 
-	// @XmlElement
 	public void setState(String state) {
 		this.state = state;
 	}

@@ -1,7 +1,13 @@
 #mac
 .DS_Store
+
 #eclipse
 .project
 .settings
 .classpath
+
+#maven
 target/
+
+#spring
+.springBeans
