@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dar.training.libraryu.model.catalog.Category;
-import com.dar.training.libraryu.repository.CategoryRepository;
+import com.darcardona.libraryu.model.catalog.Category;
+import com.darcardona.libraryu.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("/catalog/categories")
 public class CategoriesController {
 
-	final Logger logger = LoggerFactory.getLogger(CategoriesControllerTest.class);
+	final Logger logger = LoggerFactory.getLogger(CategoriesController.class);
 
 	@Autowired
 	CategoryRepository categoryRepository;
