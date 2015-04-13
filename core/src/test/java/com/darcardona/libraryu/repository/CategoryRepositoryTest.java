@@ -1,74 +1,100 @@
 package com.darcardona.libraryu.repository;
 
-import org.junit.Before;
+import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.darcardona.libraryu.model.catalog.Category;
-import com.darcardona.libraryu.repository.CategoryRepository;
+import com.darcardona.libraryu.model.dao.catalog.Category;
+import com.darcardona.libraryu.model.exceptions.BaseDAOException;
+import com.darcardona.libraryu.model.exceptions.DuplicateKeyException;
+import com.github.fakemongo.Fongo;
+import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
+import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
+import com.mongodb.Mongo;
 
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.junit.Assert.*;
-
-/**
- * Created by dar on 11/23/14.
- */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
 public class CategoryRepositoryTest {
 
-	AtomicLong id;
-	CategoryRepository categoryHandler;
-	private static final Random RANDOM = new Random();
+	@Rule
+	public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb(
+			"demo-test");
 
-	@Before
-	public void setup() {
-		id = new AtomicLong();
-		categoryHandler = new CategoryRepository();
-	}
+	// nosql-unit requirement
+	@Autowired
+	private ApplicationContext applicationContext;
 
+	@Autowired
+	private CatalogRepository catalogRepository;
+
+	/**
+	 * Expected results are in "one-person.json" file
+	 * @throws DuplicateKeyException
+	 * @throws BaseDAOException
+	 */
 	@Test
-	public void addCategory() {
-		Category newCategory = createCategory();
-		categoryHandler.add(newCategory);
+	@ShouldMatchDataSet(location = "/two-category.json")
+	public void testInsertCategory() throws BaseDAOException,
+			DuplicateKeyException {
+		Category category = new Category("Science");
+		catalogRepository.addCategory(category);
 
-		Category categoryFound = categoryHandler.find(newCategory.getId());
-		assertNotNull("category added not null", categoryFound);
-		assertEquals("category found equals added", newCategory, categoryFound);
+		category = new Category("Art");
+		catalogRepository.addCategory(category);
 	}
 
-	@Test
-	public void updateCategory() {
-		Category newCategory = createCategory();
-		categoryHandler.add(newCategory);
+	/**
+	 * Insert data from "five-person.json" and test countAllPersons method
+	 */
+	// @Test
+	// @UsingDataSet(locations = { "/five-person.json" }, loadStrategy =
+	// LoadStrategyEnum.CLEAN_INSERT)
+	// public void testCountAllPersons() {
+	// long total = this.catalogRepository.countAllPersons();
+	//
+	// assertThat(total).isEqualTo(5);
+	// }
 
-		Category categoryToUpdate = categoryHandler.find(newCategory.getId());
-		categoryToUpdate.setName("new name");
-		categoryHandler.update(categoryToUpdate);
+	/**
+	 * Insert data from "five-person.json" and test countUnderAge method
+	 */
+	// @Test
+	// @UsingDataSet(locations = { "/five-person.json" }, loadStrategy =
+	// LoadStrategyEnum.CLEAN_INSERT)
+	// public void testCountUnderAge() {
+	// long total = this.catalogRepository.countUnderAge();
+	//
+	// assertThat(total).isEqualTo(3);
+	// }
 
-		Category categoryUpdated = categoryHandler.find(newCategory.getId());
+	@Configuration
+	@EnableMongoRepositories
+	@ComponentScan(basePackages = { "com.darcardona.libraryu.repository" })
+	@PropertySource("classpath:application.properties")
+	static class PersonRepositoryTestConfiguration extends
+			AbstractMongoConfiguration {
 
-		assertEquals("category name updated", "new name",
-				categoryUpdated.getName());
-	}
+		@Override
+		protected String getDatabaseName() {
+			return "demo-test";
+		}
 
-	@Test
-	public void removeCategory() {
-		Category newCategory = createCategory();
-		categoryHandler.add(newCategory);
+		@Override
+		public Mongo mongo() {
+			// uses fongo for in-memory tests
+			return new Fongo("mongo-test").getMongo();
+		}
 
-		categoryHandler.delete(newCategory.getId());
-
-		Category categoryFound = categoryHandler.find(newCategory.getId());
-		assertNull("category deleted should be null", categoryFound);
-	}
-
-	private Category createCategory() {
-		Long currentId = id.incrementAndGet();
-
-		Category newCategory = new Category();
-		newCategory.setId(currentId);
-		newCategory.setName("Science" + currentId);
-
-		return newCategory;
 	}
 }
