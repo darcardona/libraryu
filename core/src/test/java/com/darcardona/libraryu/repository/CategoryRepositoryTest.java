@@ -72,10 +72,5 @@ public class CategoryRepositoryTest {
 			return new Fongo("mongo-test").getMongo();
 		}
 
-		// @Override
-		// protected String getMappingBasePackage() {
-		// return "com.johnathanmarksmith.mongodb.example.domain";
-		// }
-
 	}
 }
