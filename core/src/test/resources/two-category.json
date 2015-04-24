@@ -1,10 +1,12 @@
 {
     "categories": [
-        {
-            "name": "Science",
-        }
-        ,{
-            "name": "Art"
-        }
+    	{
+	        "name": "Art",
+	        "location": "South"
+	    }
+	    ,{
+	        "name": "Science",
+	        "location": "North"
+	    }
     ]
 }

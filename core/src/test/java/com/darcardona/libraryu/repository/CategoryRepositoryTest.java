@@ -1,6 +1,7 @@
 package com.darcardona.libraryu.repository;
 
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,11 +16,11 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.darcardona.libraryu.model.dao.catalog.Category;
-import com.darcardona.libraryu.model.exceptions.BaseDAOException;
-import com.darcardona.libraryu.model.exceptions.DuplicateKeyException;
-import com.github.fakemongo.Fongo;
+import com.darcardona.libraryu.domain.Category;
+import com.foursquare.fongo.Fongo;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
+import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
+import com.lordofthejars.nosqlunit.core.LoadStrategyEnum;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import com.mongodb.Mongo;
 
@@ -29,65 +30,40 @@ public class CategoryRepositoryTest {
 
 	@Rule
 	public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb(
-			"demo-test");
+			"libraryu-test");
 
 	// nosql-unit requirement
 	@Autowired
 	private ApplicationContext applicationContext;
 
 	@Autowired
-	private CatalogRepository catalogRepository;
+	private CategoryRepository repository;
 
-	/**
-	 * Expected results are in "one-person.json" file
-	 * @throws DuplicateKeyException
-	 * @throws BaseDAOException
-	 */
 	@Test
 	@ShouldMatchDataSet(location = "/two-category.json")
-	public void testInsertCategory() throws BaseDAOException,
-			DuplicateKeyException {
-		Category category = new Category("Science");
-		catalogRepository.addCategory(category);
-
-		category = new Category("Art");
-		catalogRepository.addCategory(category);
+	public void testInsertCategories() {
+		repository.insert(new Category("Art", "South"));
+		repository.insert(new Category("Science", "North"));
 	}
 
-	/**
-	 * Insert data from "five-person.json" and test countAllPersons method
-	 */
-	// @Test
-	// @UsingDataSet(locations = { "/five-person.json" }, loadStrategy =
-	// LoadStrategyEnum.CLEAN_INSERT)
-	// public void testCountAllPersons() {
-	// long total = this.catalogRepository.countAllPersons();
-	//
-	// assertThat(total).isEqualTo(5);
-	// }
+	@Test
+	@UsingDataSet(locations = { "/five-category.json" }, loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+	public void testCountAllPersons() {
+		long total = repository.count();
 
-	/**
-	 * Insert data from "five-person.json" and test countUnderAge method
-	 */
-	// @Test
-	// @UsingDataSet(locations = { "/five-person.json" }, loadStrategy =
-	// LoadStrategyEnum.CLEAN_INSERT)
-	// public void testCountUnderAge() {
-	// long total = this.catalogRepository.countUnderAge();
-	//
-	// assertThat(total).isEqualTo(3);
-	// }
+		assertThat(total).isEqualTo(5);
+	}
 
 	@Configuration
 	@EnableMongoRepositories
-	@ComponentScan(basePackages = { "com.darcardona.libraryu.repository" })
+	@ComponentScan(basePackageClasses = { CategoryRepository.class })
 	@PropertySource("classpath:application.properties")
 	static class PersonRepositoryTestConfiguration extends
 			AbstractMongoConfiguration {
 
 		@Override
 		protected String getDatabaseName() {
-			return "demo-test";
+			return "libraryu-test";
 		}
 
 		@Override
@@ -95,6 +71,11 @@ public class CategoryRepositoryTest {
 			// uses fongo for in-memory tests
 			return new Fongo("mongo-test").getMongo();
 		}
+
+		// @Override
+		// protected String getMappingBasePackage() {
+		// return "com.johnathanmarksmith.mongodb.example.domain";
+		// }
 
 	}
 }
