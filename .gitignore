@@ -1,13 +1,12 @@
 #mac
 .DS_Store
 
+#maven
+target/
+
 #eclipse
 .project
 .settings
 .classpath
-
-#maven
-target/
-
-#spring
+.tern-project
 .springBeans

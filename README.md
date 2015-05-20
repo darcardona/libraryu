@@ -1,4 +1,0 @@
-libraryu
-========
-
-basic example project

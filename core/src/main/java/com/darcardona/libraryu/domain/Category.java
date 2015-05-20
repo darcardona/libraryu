@@ -1,5 +1,8 @@
 package com.darcardona.libraryu.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,21 +12,29 @@ public class Category {
 	@Id
 	private String id;
 
+	@NotNull
+	@Size(min = 2, max = 30)
 	private String name;
 
+	@NotNull
+	@Size(min = 2, max = 30)
 	private String location;
+
+	public Category() {
+
+	}
 
 	public Category(String name, String location) {
 		this.name = name;
 		this.location = location;
 	}
 
-	public String getPersonId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setPersonId(final String personId) {
-		this.id = personId;
+	public void setId(final String id) {
+		this.id = id;
 	}
 
 	public String getName() {
