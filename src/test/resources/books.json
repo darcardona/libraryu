@@ -1,0 +1,41 @@
+{
+    "books": {
+        "data": [
+	        {
+	            "isbn": "978-84-322-4821-4",
+	            "title": "Palabra sobre palabra",
+	            "autor": "Angel Gonzales",
+	            "review": "Uno de los más destacados representantes de la llamada generación del medio siglo",
+	            "edition": "Austral"
+	        }
+	        ,{
+	        	"isbn": "978-958-8611-77-8",
+	            "title": "La casa de los espiritus",
+	            "autor": "Isabel Allende",
+	            "review": "Magistralmente ambientada en algún lugar de América Latina",
+	            "edition": "Debolsillo"
+	        }
+	        ,{
+	        	"isbn": "978-958-8611-77-9",
+	            "title": "El cuaderno de Maya",
+	            "autor": "Isabel Allende",
+	            "review": "Magistralmente ambientada en algún lugar de América Central",
+	            "edition": "Debolsillo"
+	        }
+	        ,{
+	        	"isbn": "978-987-45158-0-3",
+	            "title": "Proyectos Ágiles con #Scrum",
+	            "autor": "Martín Alaimo",
+	            "review": "Flexibilidad, aprendizaje, innovación y colaboración en contextos complejos",
+	            "edition": "Kleer"
+	        }
+	        ,{
+	        	"isbn": "978-0-321-81573-6",
+	            "title": "Software Architecture in Practice",
+	            "autor": "Len Bass",
+	            "review": "Award-winning and highly influential",
+	            "edition": "Addison Wesley"
+	        }
+        ]
+    }
+}

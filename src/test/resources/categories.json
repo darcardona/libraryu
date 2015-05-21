@@ -1,0 +1,26 @@
+{
+    "categories": {
+        "data": [
+	        {
+	            "name": "Art",
+	            "location": "South"
+	        }
+	        ,{
+	            "name": "Science",
+	            "location": "North"
+	        }
+	        ,{
+	            "name": "Religion",
+	            "location": "West"
+	        }
+	        ,{
+	            "name": "Politics",
+	            "location": "East"
+	        }
+	        ,{
+	            "name": "Math",
+	            "location": "South"
+	        }
+        ]
+    }
+}
