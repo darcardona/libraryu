@@ -6,12 +6,12 @@ import com.darcardona.libraryu.domain.Book;
 
 public interface BookService {
 
-	Book save(Book book);
+  Book save(Book book);
 
-	Book get(String isbn);
+  Book get(String isbn);
 
-	List<Book> list();
+  List<Book> list();
 
-	void delete(String isbn);
+  Boolean delete(String isbn);
 
 }

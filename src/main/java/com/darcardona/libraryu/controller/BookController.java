@@ -25,75 +25,78 @@ import com.darcardona.libraryu.service.CategoryService;
 @RequestMapping("/books")
 public class BookController {
 
-	private Logger logger = Logger.getLogger(BookController.class);
+  private Logger logger = Logger.getLogger(BookController.class);
 
-	@Autowired
-	BookService bookService;
+  @Autowired
+  BookService bookService;
 
-	@Autowired
-	CategoryService categoryService;
+  @Autowired
+  CategoryService categoryService;
 
-	@ModelAttribute("categories")
-	public List<Category> loadCategories() {
-		return categoryService.list();
-	}
+  @ModelAttribute("categories")
+  public List<Category> loadCategories() {
+    return categoryService.list();
+  }
 
-	@RequestMapping
-	public String getStartPage(Model model) {
-		List<Book> books = bookService.list();
-		model.addAttribute("books", books);
+  @RequestMapping
+  public String getStartPage(Model model) {
+    List<Book> books = bookService.list();
+    model.addAttribute("books", books);
 
-		logger.debug(" getStartPage books:" + books);
+    logger.debug(" getStartPage books:" + books);
 
-		return "books/list";
-	}
+    return "books/list";
+  }
 
-	@RequestMapping(value = "/delete/{isbn}")
-	public String deleteCategory(@PathVariable("isbn") String isbn,
-			SessionStatus sessionStatus, RedirectAttributes redirectAttrs) {
-		logger.debug("/delete/{isbn}:" + isbn);
+  @RequestMapping(value = "/delete/{isbn}")
+  public String delete(@PathVariable("isbn") String isbn, SessionStatus sessionStatus,
+      RedirectAttributes redirectAttrs) {
+    logger.debug("/delete/{isbn}:" + isbn);
 
-		bookService.delete(isbn);
+    boolean deleted = bookService.delete(isbn);
 
-		sessionStatus.setComplete();
-		redirectAttrs.addFlashAttribute("message", "deleted " + isbn);
+    if (deleted) {
+      sessionStatus.setComplete();
+      redirectAttrs.addFlashAttribute("successMessage", "deleted " + isbn);
+    } else {
+      redirectAttrs.addFlashAttribute("errorMessage", "deleted " + isbn);
+    }
 
-		return "redirect:../";
-	}
+    return "redirect:../";
+  }
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String create(Model model) throws Exception {
-		logger.debug("/add GET create");
+  @RequestMapping(value = "/add", method = RequestMethod.GET)
+  public String create(Model model) throws Exception {
+    logger.debug("/add GET create");
 
-		model.addAttribute("book", new Book());
+    model.addAttribute("book", new Book());
 
-		return "books/add";
-	}
+    return "books/add";
+  }
 
-	@RequestMapping(value = "/edit/{isbn}", method = RequestMethod.GET)
-	public String edit(@PathVariable("isbn") String isbn, Model model)
-			throws Exception {
-		logger.debug("/edit/{isbn} GET edit");
+  @RequestMapping(value = "/edit/{isbn}", method = RequestMethod.GET)
+  public String edit(@PathVariable("isbn") String isbn, Model model) throws Exception {
+    logger.debug("/edit/{isbn} GET edit");
 
-		Book book = bookService.get(isbn);
-		model.addAttribute("book", book);
+    Book book = bookService.get(isbn);
+    model.addAttribute("book", book);
 
-		return "books/add";
-	}
+    return "books/add";
+  }
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String save(@Valid Book book, BindingResult result,
-			SessionStatus sessionStatus, RedirectAttributes redirectAttrs) {
-		logger.debug("/add POST save");
+  @RequestMapping(value = "/add", method = RequestMethod.POST)
+  public String save(@Valid Book book, BindingResult result, SessionStatus sessionStatus,
+      RedirectAttributes redirectAttrs) {
+    logger.debug("/add POST save");
 
-		if (result.hasErrors()) {
-			return "books/add";
-		}
+    if (result.hasErrors()) {
+      return "books/add";
+    }
 
-		bookService.save(book);
-		sessionStatus.setComplete();
-		redirectAttrs.addFlashAttribute("message", book.getIsbn());
+    bookService.save(book);
+    sessionStatus.setComplete();
+    redirectAttrs.addFlashAttribute("successMessage", book.getIsbn());
 
-		return "redirect:/books";
-	}
+    return "redirect:/books";
+  }
 }

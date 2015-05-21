@@ -22,67 +22,69 @@ import com.darcardona.libraryu.service.CategoryService;
 @RequestMapping("/categories")
 public class CategoryController {
 
-	private Logger logger = Logger.getLogger(CategoryController.class);
+  private Logger logger = Logger.getLogger(CategoryController.class);
 
-	@Autowired
-	CategoryService categoryService;
+  @Autowired
+  CategoryService categoryService;
 
-	@RequestMapping
-	public String getStartPage(Model model) {
-		List<Category> categories = categoryService.list();
-		model.addAttribute("categories", categories);
+  @RequestMapping
+  public String getStartPage(Model model) {
+    List<Category> categories = categoryService.list();
+    model.addAttribute("categories", categories);
 
-		logger.debug(" getStartPage categories:" + categories);
+    logger.debug(" getStartPage categories:" + categories);
 
-		return "categories/list";
-	}
+    return "categories/list";
+  }
 
-	@RequestMapping(value = "/delete/{id}")
-	public String deleteCategory(@PathVariable("id") String id,
-			SessionStatus sessionStatus, RedirectAttributes redirectAttrs) {
-		logger.debug("/delete/{id}:" + id);
+  @RequestMapping(value = "/delete/{id}")
+  public String deleteCategory(@PathVariable("id") String id, SessionStatus sessionStatus,
+      RedirectAttributes redirectAttrs) {
+    logger.debug("/delete/{id}:" + id);
 
-		categoryService.delete(id);
+    boolean deleted = categoryService.delete(id);
 
-		sessionStatus.setComplete();
-		redirectAttrs.addFlashAttribute("message", "deleted " + id);
+    if (deleted) {
+      sessionStatus.setComplete();
+      redirectAttrs.addFlashAttribute("successMessage", "deleted " + id);
+    } else {
+      redirectAttrs.addFlashAttribute("errorMessage", "not deleted " + id);
+    }
+    return "redirect:../";
+  }
 
-		return "redirect:../";
-	}
+  @RequestMapping(value = "/add", method = RequestMethod.GET)
+  public String createCategory(Model model) throws Exception {
+    logger.debug("/add GET createCategory");
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String createCategory(Model model) throws Exception {
-		logger.debug("/add GET createCategory");
+    model.addAttribute("category", new Category());
 
-		model.addAttribute("category", new Category());
+    return "categories/add";
+  }
 
-		return "categories/add";
-	}
+  @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+  public String editCategory(@PathVariable("id") String id, Model model) throws Exception {
+    logger.debug("/edit/{id} GET editCategory");
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String editCategory(@PathVariable("id") String id, Model model)
-			throws Exception {
-		logger.debug("/edit/{id} GET editCategory");
+    Category category = categoryService.get(id);
+    model.addAttribute("category", category);
 
-		Category category = categoryService.get(id);
-		model.addAttribute("category", category);
+    return "categories/add";
+  }
 
-		return "categories/add";
-	}
+  @RequestMapping(value = "/add", method = RequestMethod.POST)
+  public String saveCategory(@Valid Category category, BindingResult result,
+      SessionStatus sessionStatus, RedirectAttributes redirectAttrs) {
+    logger.debug("/add POST saveCategory");
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String saveCategory(@Valid Category category, BindingResult result,
-			SessionStatus sessionStatus, RedirectAttributes redirectAttrs) {
-		logger.debug("/add POST saveCategory");
+    if (result.hasErrors()) {
+      return "categories/add";
+    }
 
-		if (result.hasErrors()) {
-			return "categories/add";
-		}
+    categoryService.save(category);
+    sessionStatus.setComplete();
+    redirectAttrs.addFlashAttribute("successMessage", category.getName());
 
-		categoryService.save(category);
-		sessionStatus.setComplete();
-		redirectAttrs.addFlashAttribute("message", category.getName());
-
-		return "redirect:/categories";
-	}
+    return "redirect:/categories";
+  }
 }

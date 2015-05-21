@@ -12,28 +12,30 @@ import com.darcardona.libraryu.service.BookService;
 @Service
 public class BookServiceImpl implements BookService {
 
-	@Autowired
-	BookRepository repository;
+  @Autowired
+  BookRepository repository;
 
-	@Override
-	public Book save(Book book) {
-		return repository.save(book);
-	}
+  @Override
+  public Book save(Book book) {
+    return repository.save(book);
+  }
 
-	@Override
-	public Book get(String isbn) {
-		return repository.findByIsbn(isbn);
-	}
+  @Override
+  public Book get(String isbn) {
+    return repository.findByIsbn(isbn);
+  }
 
-	@Override
-	public List<Book> list() {
-		return repository.findAll();
-	}
+  @Override
+  public List<Book> list() {
+    return repository.findAll();
+  }
 
-	@Override
-	public void delete(String isbn) {
-		Book toDelete = get(isbn);
-		if (toDelete != null)
-			repository.delete(toDelete.getId());
-	}
+  @Override
+  public Boolean delete(String isbn) {
+    Book existing = get(isbn);
+    if (existing == null)
+      return false;
+    repository.delete(existing.getId());
+    return true;
+  }
 }

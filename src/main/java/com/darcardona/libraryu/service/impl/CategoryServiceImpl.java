@@ -12,37 +12,35 @@ import com.darcardona.libraryu.service.CategoryService;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-	@Autowired
-	CategoryRepository repository;
+  @Autowired
+  CategoryRepository repository;
 
-	@Override
-	public Category save(Category category) {
-		return repository.save(category);
-	}
+  @Override
+  public Category save(Category category) {
+    return repository.save(category);
+  }
 
-	@Override
-	public Category getByName(String name) {
-		return repository.findByName(name);
-	}
+  @Override
+  public Category getByName(String name) {
+    return repository.findByName(name);
+  }
 
-	@Override
-	public Category get(String id) {
-		return repository.findOne(id);
-	}
+  @Override
+  public Category get(String id) {
+    return repository.findOne(id);
+  }
 
-	@Override
-	public List<Category> list() {
-		return repository.findAll();
-	}
+  @Override
+  public List<Category> list() {
+    return repository.findAll();
+  }
 
-	@Override
-	public Boolean delete(String id) {
-
-		Category existing = get(id);
-		if (existing == null)
-			return false;
-
-		repository.delete(existing);
-		return true;
-	}
+  @Override
+  public Boolean delete(String id) {
+    Category existing = get(id);
+    if (existing == null)
+      return false;
+    repository.delete(existing);
+    return true;
+  }
 }

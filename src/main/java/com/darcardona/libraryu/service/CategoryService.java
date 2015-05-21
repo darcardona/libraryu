@@ -6,14 +6,14 @@ import com.darcardona.libraryu.domain.Category;
 
 public interface CategoryService {
 
-	Category save(Category category);
+  Category save(Category category);
 
-	Category getByName(String name);
+  Category getByName(String name);
 
-	Category get(String id);
+  Category get(String id);
 
-	List<Category> list();
+  List<Category> list();
 
-	Boolean delete(String id);
+  Boolean delete(String id);
 
 }
