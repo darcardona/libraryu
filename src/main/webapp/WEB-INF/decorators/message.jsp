@@ -31,8 +31,7 @@
     <script>
 					$(document).ready(function() {
 						setTimeout(function() {
-							$("
-					.alert").fadeOut(1500);
+							$(".alert").fadeOut(1500);
 						}, 3000);
 					});
 				</script>
