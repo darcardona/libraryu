@@ -42,12 +42,12 @@
         <form:errors path="title" cssClass="alert alert-error"
           element="div" />
 
-        <!-- autor -->
-        <form:label path="autor"
+        <!-- author -->
+        <form:label path="author"
           cssClass="string required control-label">
-          <abbr title="required">*</abbr> Autor</form:label>
-        <form:input cssClass="input-block-level" path="autor" />
-        <form:errors path="autor" cssClass="alert alert-error"
+          <abbr title="required">*</abbr> Author</form:label>
+        <form:input cssClass="input-block-level" path="author" />
+        <form:errors path="author" cssClass="alert alert-error"
           element="div" />
 
         <!-- edition -->
@@ -70,6 +70,7 @@
         <form:label path="category" cssClass="string control-label">
 					Category</form:label>
         <form:select path="category.id" cssClass="input-block-level">
+          <form:option value="${null}" label="-- select --"/>
           <form:options items="${categories}" itemLabel="name"
             itemValue="id" />
         </form:select>

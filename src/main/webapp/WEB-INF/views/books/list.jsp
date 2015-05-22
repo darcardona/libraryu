@@ -23,6 +23,7 @@
               <th>Title</th>
               <th>Author</th>
               <th>Edition</th>
+              <th>Category</th>
             </tr>
           </thead>
           <tbody>
@@ -31,8 +32,9 @@
                 <td><a
                   href="<c:url value="/books/edit/${book.isbn}"/>">${book.isbn}</a></td>
                 <td>${book.title}</td>
-                <td>${book.autor}</td>
+                <td>${book.author}</td>
                 <td>${book.edition}</td>
+                <td>${book.category.name}</td>
                 <td><a class="icon-remove"
                   href="<c:url value="/books/delete/${book.isbn}"/>"></a>&nbsp;</td>
               </tr>

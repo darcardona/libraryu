@@ -11,13 +11,13 @@ import com.darcardona.libraryu.domain.Category;
 @Repository
 public interface BookRepository extends MongoRepository<Book, String> {
 
-	Book findByIsbn(String isbn);
+  Book findByIsbn(String isbn);
 
-	List<Book> findByTitle(String title);
+  List<Book> findByTitle(String title);
 
-	List<Book> findByAutor(String autor);
+  List<Book> findByAuthor(String author);
 
-	List<Book> findByEdition(String edition);
+  List<Book> findByEdition(String edition);
 
-	List<Book> findByCategory(Category category);
+  List<Book> findByCategory(Category category);
 }
