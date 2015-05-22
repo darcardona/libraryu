@@ -12,78 +12,99 @@
     <p class="lead">Use this form to add new books.</p>
   </div>
 
-  <div class="row-fluid">
-    <div class="span8">
+  <div class="row col-xs-12">
+    <c:set var="action" value="Create" />
+    <form:form id="bookForm" method="post" modelAttribute="book"
+      acceptCharset="UTF-8" action="/books/add"
+      cssClass="form-horizontal">
 
-      <c:set var="action" value="Create" />
-      <form:form id="bookForm" method="post" modelAttribute="book"
-        acceptCharset="UTF-8" action="/books/add">
-
-        <!-- ID -->
-        <c:if test="${book.id != null}" var="isEditing" scope="request">
+      <!-- ID -->
+      <c:if test="${book.id != null}" var="isEditing" scope="request">
+        <div class="form-group">
           <c:set var="action" value="Update" />
-          <form:label path="id" cssClass="string required control-label">ID</form:label>
-          <form:input cssClass="input-block-level" path="id"
-            readonly="true" />
-        </c:if>
+          <form:label path="id" cssClass="col-sm-2 control-label">ID</form:label>
+          <div class="col-sm-10">
+            <form:input path="id" cssClass="form-control"
+              readonly="true" />
+          </div>
+        </div>
+      </c:if>
 
-        <!-- isbn -->
-        <form:label path="isbn" cssClass="string required control-label">
+      <!-- isbn -->
+      <div class="form-group">
+        <form:label path="isbn" cssClass="col-sm-2 control-label">
           <abbr title="required">*</abbr> ISBN</form:label>
-        <form:input cssClass="input-block-level" path="isbn" />
-        <form:errors path="isbn" cssClass="alert alert-error"
-          element="div" />
+        <div class="col-sm-10">
+          <form:input path="isbn" cssClass="form-control" />
+          <form:errors path="isbn" cssClass="bg-danger" element="div" />
+        </div>
+      </div>
 
-        <!-- title -->
-        <form:label path="title"
-          cssClass="string required control-label">
+      <!-- title -->
+      <div class="form-group">
+        <form:label path="title" cssClass="col-sm-2 control-label">
           <abbr title="required">*</abbr> Title</form:label>
-        <form:input cssClass="input-block-level" path="title" />
-        <form:errors path="title" cssClass="alert alert-error"
-          element="div" />
+        <div class="col-sm-10">
+          <form:input path="title" cssClass="form-control" />
+          <form:errors path="title" cssClass="bg-danger" element="div" />
+        </div>
+      </div>
 
-        <!-- author -->
-        <form:label path="author"
-          cssClass="string required control-label">
+      <!-- author -->
+      <div class="form-group">
+        <form:label path="author" cssClass="col-sm-2 control-label">
           <abbr title="required">*</abbr> Author</form:label>
-        <form:input cssClass="input-block-level" path="author" />
-        <form:errors path="author" cssClass="alert alert-error"
-          element="div" />
+        <div class="col-sm-10">
+          <form:input path="author" cssClass="form-control" />
+          <form:errors path="author" cssClass="bg-danger" element="div" />
+        </div>
+      </div>
 
-        <!-- edition -->
-        <form:label path="edition"
-          cssClass="string required control-label">
+      <!-- edition -->
+      <div class="form-group">
+        <form:label path="edition" cssClass="col-sm-2 control-label">
           <abbr title="required">*</abbr> Edition</form:label>
-        <form:input cssClass="input-block-level" path="edition" />
-        <form:errors path="edition" cssClass="alert alert-error"
-          element="div" />
+        <div class="col-sm-10">
+          <form:input path="edition" cssClass="form-control" />
+          <form:errors path="edition" cssClass="alert bg-danger"
+            element="div" />
+        </div>
+      </div>
 
-        <!-- review -->
-        <form:label path="review"
-          cssClass="string required control-label">
+      <!-- review -->
+      <div class="form-group">
+        <form:label path="review" cssClass="col-sm-2 control-label">
           <abbr title="required">*</abbr> Review</form:label>
-        <form:textarea path="review" cssClass="input-block-level" />
-        <form:errors path="review" cssClass="alert alert-error"
-          element="div" />
+        <div class="col-sm-10">
+          <form:textarea path="review" cssClass="form-control" />
+          <form:errors path="review" cssClass="bg-danger" element="div" />
+        </div>
+      </div>
 
-        <!-- category -->
-        <form:label path="category" cssClass="string control-label">
+      <!-- category -->
+      <div class="form-group">
+        <form:label path="category" cssClass="col-sm-2 control-label">
 					Category</form:label>
-        <form:select path="category.id" cssClass="input-block-level">
-          <form:option value="${null}" label="-- select --"/>
-          <form:options items="${categories}" itemLabel="name"
-            itemValue="id" />
-        </form:select>
-        <form:errors path="category" cssClass="alert alert-error"
-          element="div" />
+        <div class="col-sm-10">
+          <form:select path="category.id" cssClass="form-control">
+            <form:option value="" label="-- select --" />
+            <form:options items="${categories}" itemLabel="name"
+              itemValue="id" />
+          </form:select>
+          <form:errors path="category.id" cssClass="bg-danger"
+            element="div" />
+        </div>
+      </div>
 
-        <!-- actions -->
-        <input class="btn btn-primary" name="commit" type="submit"
-          value="${action} Book">
-        <a class="btn btn-danger" href="<c:url value="/books"/>">Cancel</a>
-
-      </form:form>
-    </div>
+      <!-- actions -->
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input class="btn btn-primary" name="commit" type="submit"
+            value="${action} Book"> <a class="btn btn-default"
+            href="<c:url value="/books"/>">Cancel</a>
+        </div>
+      </div>
+    </form:form>
   </div>
 </body>
 </html>

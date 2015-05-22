@@ -5,8 +5,7 @@
 target/
 
 #eclipse
+.classpath
 .project
 .settings
-.classpath
 .tern-project
-.springBeans

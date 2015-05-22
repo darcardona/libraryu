@@ -12,46 +12,49 @@
     <p class="lead">Registered books.</p>
   </div>
 
-  <div class="row-fluid">
-    <div class="span8">
+  <div class="row">
+    <div class="table-responsive">
 
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Edition</th>
+            <th>Category</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach items="${books}" var="book">
             <tr>
-              <th>ISBN</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Edition</th>
-              <th>Category</th>
+              <td><a
+                href="<c:url value="/books/edit/${book.isbn}"/>">${book.isbn}</a></td>
+              <td>${book.title}</td>
+              <td>${book.author}</td>
+              <td>${book.edition}</td>
+              <td>${book.category.name}</td>
+              <td><a
+                href="<c:url value="/books/delete/${book.isbn}"/>"><span
+                  class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+              </td>
+
             </tr>
-          </thead>
-          <tbody>
-            <c:forEach items="${books}" var="book">
-              <tr>
-                <td><a
-                  href="<c:url value="/books/edit/${book.isbn}"/>">${book.isbn}</a></td>
-                <td>${book.title}</td>
-                <td>${book.author}</td>
-                <td>${book.edition}</td>
-                <td>${book.category.name}</td>
-                <td><a class="icon-remove"
-                  href="<c:url value="/books/delete/${book.isbn}"/>"></a>&nbsp;</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
-      <div class="spacer">&nbsp;</div>
-
-      <div class="control-group">
-        <div class="btn btn-default">
-          <a href="<c:url value="/books/add"/>">Create Book</a>
-        </div>
-      </div>
-
+          </c:forEach>
+        </tbody>
+      </table>
     </div>
+    <!-- /.table-responsive -->
+
+    <div class="control-group">
+      <div class="btn btn-default">
+        <a href="<c:url value="/books/add"/>">Create Book</a>
+      </div>
+    </div>
+
   </div>
+  <!-- /.row -->
 
 </body>
 </html>

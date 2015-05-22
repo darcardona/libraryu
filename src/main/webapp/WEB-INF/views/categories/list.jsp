@@ -12,41 +12,42 @@
     <p class="lead">Registered categories.</p>
   </div>
 
-  <div class="row-fluid">
-    <div class="span8">
+  <div class="row">
+    <div class="table-responsive">
 
-      <div class="table-responsive">
-        <table class="table table-hover">
-
-          <thead>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach items="${categories}" var="category">
             <tr>
-              <th>Name</th>
-              <th>Location</th>
+              <td><a
+                href="<c:url value="/categories/edit/${category.id}"/>">${category.name}</a></td>
+              <td>${category.location}</td>
+              <td><a
+                href="<c:url value="/categories/delete/${category.id}"/>"><span
+                  class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <c:forEach items="${categories}" var="category">
-              <tr>
-                <td><a
-                  href="<c:url value="/categories/edit/${category.id}"/>">${category.name}</a></td>
-                <td>${category.location}</td>
-                <td><a class="icon-remove"
-                  href="<c:url value="/categories/delete/${category.id}"/>"></a>&nbsp;</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
-      <div class="spacer">&nbsp;</div>
-
-      <div class="control-group">
-        <div class="btn btn-default">
-          <a href="<c:url value="/categories/add"/>">Create Category</a>
-        </div>
-      </div>
-
+          </c:forEach>
+        </tbody>
+      </table>
     </div>
+    <!-- /.table-responsive -->
+
+    <div class="control-group">
+      <div class="btn btn-default">
+        <a href="<c:url value="/categories/add"/>">Create Category</a>
+      </div>
+    </div>
+
   </div>
+  <!-- /.row -->
 
 </body>
 </html>

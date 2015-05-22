@@ -12,49 +12,56 @@
     <p class="lead">Use this form to add new categories.</p>
   </div>
 
-  <div class="row-fluid">
-    <div class="span8">
+  <div class="row col-xs-12">
+    <c:set var="action" value="Create" />
+    <form:form id="categoryForm" method="post" modelAttribute="category"
+      acceptCharset="UTF-8" action="/categories/add"
+      cssClass="form-horizontal">
 
-      <c:set var="action" value="Create" />
-      <form:form id="categoryForm" method="post"
-        modelAttribute="category" acceptCharset="UTF-8"
-        action="/categories/add">
-
-        <fieldset>
-
-          <!-- ID -->
-          <c:if test="${category.id != null}" var="isEditing"
-            scope="request">
-            <c:set var="action" value="Update" />
-            <form:label path="id"
-              cssClass="string required control-label">ID</form:label>
-            <form:input cssClass="input-block-level" path="id"
+      <!-- ID -->
+      <c:if test="${category.id != null}" var="isEditing"
+        scope="request">
+        <div class="form-group">
+          <c:set var="action" value="Update" />
+          <form:label path="id" cssClass="col-sm-2 control-label">ID</form:label>
+          <div class="col-sm-10">
+            <form:input path="id" cssClass="form-control"
               readonly="true" />
-          </c:if>
+          </div>
+        </div>
+      </c:if>
 
-          <!-- name -->
-          <form:label path="name"
-            cssClass="string required control-label">
-            <abbr title="required">*</abbr> Name</form:label>
-          <form:input cssClass="input-block-level" path="name" />
-          <form:errors path="name" cssClass="alert alert-error"
+      <!-- name -->
+      <div class="form-group">
+        <form:label path="name" cssClass="col-sm-2 control-label">
+          <abbr title="required">*</abbr> Name</form:label>
+        <div class="col-sm-10">
+          <form:input path="name" cssClass="form-control" />
+          <form:errors path="name" cssClass="bg-danger" element="div" />
+        </div>
+      </div>
+
+      <!-- location -->
+      <div class="form-group">
+        <form:label path="location" cssClass="col-sm-2 control-label">
+          <abbr title="required">*</abbr> Location</form:label>
+        <div class="col-sm-10">
+          <form:input path="location" cssClass="form-control" />
+          <form:errors path="location" cssClass="bg-danger"
             element="div" />
+        </div>
+      </div>
 
-          <!-- location -->
-          <form:label path="location"
-            cssClass="string required control-label">
-            <abbr title="required">*</abbr> Location</form:label>
-          <form:input cssClass="input-block-level" path="location" />
-          <form:errors path="location" cssClass="alert alert-error"
-            element="div" />
-
-          <!-- actions -->
+      <!-- actions -->
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
           <input class="btn btn-primary" name="commit" type="submit"
             value="${action} Category"> <a
-            class="btn btn-danger" href="<c:url value="/categories"/>">Cancel</a>
-        </fieldset>
-      </form:form>
-    </div>
+            class="btn btn-default" href="<c:url value="/categories"/>">Cancel</a>
+        </div>
+      </div>
+
+    </form:form>
   </div>
 </body>
 </html>

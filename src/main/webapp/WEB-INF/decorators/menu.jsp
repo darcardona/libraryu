@@ -4,9 +4,11 @@
 <html>
 <body>
 
-  <div class="well sidebar-nav">
-    <ul class="nav nav-list">
-      <li class="nav-header"><spring:message code="layout.menu" /></li>
+  <div class="sidebar sidebar-inset">
+    <h4>
+      <spring:message code="layout.menu" />
+    </h4>
+    <ul>
       <li><a href="<c:url value="/books"/>"><spring:message
             code="layout.menu.books" /></a></li>
       <li><a href="<c:url value="/categories"/>"><spring:message
