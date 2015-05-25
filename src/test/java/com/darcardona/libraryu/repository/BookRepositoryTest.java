@@ -16,7 +16,7 @@ import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 
-public class BookRepositoryTest extends AbstractIntegrationTest {
+public class BookRepositoryTest extends AbstractIntegrationTestConfig {
 
   @Rule
   public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("libraryu-test");
